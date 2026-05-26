@@ -1,7 +1,7 @@
 # SuperMod Speedrun Edition
 Версия модлоадера [**SuperMod**](https://github.com/zziger/supermod), разрешённая для использования в спидранах игры "Супер Корова" (Nevosoft).
 
-| [**Download / Скачать**](https://github.com/n-saraseka/supermod/releases/latest/download/dinput8.dll) | [**Discord сервер**](https://discord.supercow.community) |
+| [**Download / Скачать**](https://github.com/n-saraseka/supermod/releases/latest/download/d3d8.dll) | [**Discord сервер**](https://discord.supercow.community) |
 |-------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
 
 ## Установка

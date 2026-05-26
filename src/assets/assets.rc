@@ -1,6 +1,5 @@
 #include "assets.h"
 
-LUA_SDK_ZIP RCDATA "lua.zip"
 RES_LOGO RCDATA "./icon.png"
 
 1 VERSIONINFO

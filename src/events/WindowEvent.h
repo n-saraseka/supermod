@@ -12,18 +12,6 @@ struct WindowEvent final : ICancellableEvent<"windowEvent", WindowEvent> {
 
     WindowEvent(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam)
     : hWnd(hWnd), msg(msg), wParam(wParam), lParam(lParam) {}
-
-    void RegisterLuaType(sol::state& state) override
-    {
-        state.new_usertype<WindowEvent>(sol::no_constructor,
-            "hWnd", &WindowEvent::hWnd,
-            "msg", &WindowEvent::msg,
-            "wParam", &WindowEvent::wParam,
-            "lParam", &WindowEvent::lParam,
-            "cancel", &WindowEvent::Cancel,
-            "isCancelled", &WindowEvent::IsCancelled
-        );
-    }
 };
 
 inline int (__stdcall *wndproc_orig)(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) = nullptr;

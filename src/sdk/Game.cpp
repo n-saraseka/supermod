@@ -2,7 +2,6 @@
 
 #include <filesystem>
 #include <modloader/ModManager.h>
-#include <modloader/mod/impl/lua/lua.h>
 
 #include "Data.h"
 #include "DirectX.h"

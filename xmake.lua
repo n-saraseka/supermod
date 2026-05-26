@@ -5,7 +5,6 @@ add_requires("minhook multihook")
 add_requires("lodepng")
 add_requires("libjpeg-turbo")
 add_requires("imgui v1.90.4-docking", { configs = { win32 = true, user_config = path.join(os.curdir(), "src/ImGuiConfig.h") }})
-add_requires("luajit-fork 18926e357d12f7f757227a1ce018876aa8d9fd57")
 add_requires("yaml-cpp 0.7.0")
 add_requires("tga 2022.05.05")
 add_requires("gtest v1.14.0")
@@ -39,10 +38,6 @@ option_end()
 
 task("pack-resources")
     on_run(function()
-        import("utils.archive")
-
-        if os.exists("./src/assets/lua.zip") then os.rm("./src/assets/lua.zip") end
-        archive.archive("./src/assets/lua.zip", "./src/lua/*", {})
 
         -- Change last write date, forcing to relink resources
         io.writefile("./src/assets/assets.rc", io.readfile("./src/assets/assets.rc"))
@@ -57,7 +52,6 @@ function add_packagelist()
     add_packages("minhook")
     add_packages("lodepng")
     add_packages("imgui")
-    add_packages("luajit-fork")
     add_packages("yaml-cpp")
     add_packages("libjpeg-turbo")
     add_packages("tga")

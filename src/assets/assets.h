@@ -12,5 +12,4 @@
 #define VER_FILETYPE                VFT_APP
 
 
-#define LUA_SDK_ZIP 307
 #define RES_LOGO 400

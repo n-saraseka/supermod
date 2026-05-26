@@ -14,7 +14,6 @@ namespace modloader {
         enum class ScriptType
         {
             NONE,
-            LUA,
             DLL
         };
 
@@ -32,15 +31,6 @@ namespace modloader {
             [[nodiscard]] std::string GetName() const
             {
                 return name.empty() ? id : name;
-            }
-
-            static void RegisterLuaType(sol::state& lua) {
-                lua.new_usertype<Dependency>(sol::no_constructor,
-                    "id", sol::readonly(&Dependency::id),
-                    "name", sol::readonly(&Dependency::name),
-                    "version", sol::property([](const Dependency& obj) { return obj.version.Serialize(); }),
-                    "getName", &Dependency::GetName
-                );
             }
         };
 
@@ -78,23 +68,6 @@ namespace modloader {
         // TODO serialize
 
         [[nodiscard]] std::string ToString() const;
-
-        static void RegisterLuaType(sol::state& lua) {
-            Dependency::RegisterLuaType(lua);
-
-            lua.new_usertype<ModInfo>(sol::no_constructor,
-                "id", &ModInfo::id,
-                "title", &ModInfo::title,
-                "author", &ModInfo::author,
-                "version", &ModInfo::version,
-                "description", &ModInfo::description,
-                "dependencies", &ModInfo::dependencies,
-                "socialLinks", &ModInfo::socialLinks,
-                "gameVersions", &ModInfo::gameVersions,
-                "hasDependency", &ModInfo::HasDependency,
-                sol::meta_function::to_string, &ModInfo::ToString
-            );
-        }
 
     private:
         std::string id;

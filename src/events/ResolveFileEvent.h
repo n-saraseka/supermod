@@ -26,16 +26,6 @@ struct ResolveFileEvent final : IEvent<"resolveFile", ResolveFileEvent> {
         return _resolvedPath;
     }
 
-    void RegisterLuaType(sol::state& state) override
-    {
-        state.new_usertype<ResolveFileEvent>(sol::no_constructor,
-            "absolutePath", &ResolveFileEvent::absolutePath,
-            "getResolvedPath", &ResolveFileEvent::GetResolvedPath,
-            "setResolvedPath", &ResolveFileEvent::SetResolvedPath,
-            "clearResolvedPath", &ResolveFileEvent::ClearResolvedPath
-        );
-    }
-
 private: 
     std::optional<std::filesystem::path> _resolvedPath = std::nullopt;
 };

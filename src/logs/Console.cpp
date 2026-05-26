@@ -135,16 +135,3 @@ void Console::Update()
     else Disable();
     mainLogger->set_level(cfg.log.level >= 0 && cfg.log.level < spdlog::level::n_levels ? cfg.log.level : spdlog::level::info);
 }
-
-void Console::AddToLua(const std::shared_ptr<spdlog::logger>& logger, sol::table table)
-{
-    auto log = table.create("log");
-
-    log["info"] = sol::as_function([logger](const std::string& msg) { logger->info(msg); });
-    log["error"] = sol::as_function([logger](const std::string& msg) { logger->error(msg); });
-    log["warn"] = sol::as_function([logger](const std::string& msg) { logger->warn(msg); });
-    log["debug"] = sol::as_function([logger](const std::string& msg) { logger->debug(msg); });
-    log["trace"] = sol::as_function([logger](const std::string& msg) { logger->trace(msg); });
-    log["critical"] = sol::as_function([logger](const std::string& msg) { logger->critical(msg); });
-    log["game"] = sol::as_function([logger](const std::string& msg) { logger->info(msg); }); // TODO: deprecate
-}

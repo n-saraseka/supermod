@@ -99,33 +99,4 @@ public:
         LINK(updater.checkAutomatically, ["updater"]["checkAutomatically"]);
         LINK(updater.usePrerelease, ["updater"]["usePrerelease"]);
     }
-
-    static void AddLuaIntrinsics(sol::table table, const std::string& modId)
-    {
-        table["__getModConfig"] = [modId] { return GetYaml()["modConfigs"][modId]; };
-        table["__configKeyExists"] = [](const YAML::Node& node, const std::string& key) { return !!node[key]; };
-        table["__configGetString"] = [](const YAML::Node& node, const std::string& key) { return node[key].as<std::string>(""); };
-        table["__configGetDouble"] = [](const YAML::Node& node, const std::string& key) { return node[key].as<double>(0); };
-        table["__configGetBool"] = [](const YAML::Node& node, const std::string& key) { return node[key].as<bool>(false); };
-        table["__configGetNested"] = [](const YAML::Node& node, const std::string& key) { return node[key]; };
-        table["__configSet"] = sol::overload(
-            [](YAML::Node& node, bool val, const std::string& key) { node[key] = val; },
-            [](YAML::Node& node, long long val, const std::string& key) { node[key] = val; },
-            [](YAML::Node& node, double val, const std::string& key) { node[key] = val; },
-            [](YAML::Node& node, const std::string& val, const std::string& key) { node[key] = val; }
-        );
-        table["__configSave"] = [] { Get().Save(); };
-    }
-
-    static void RemoveLuaIntrinsics(sol::table table)
-    {
-        table["__getModConfig"] = sol::nil;
-        table["__configKeyExists"] = sol::nil;
-        table["__configGetString"] = sol::nil;
-        table["__configGetDouble"] = sol::nil;
-        table["__configGetBool"] = sol::nil;
-        table["__configGetNested"] = sol::nil;
-        table["__configSet"] = sol::nil;
-        table["__configSave"] = sol::nil;
-    }
 };

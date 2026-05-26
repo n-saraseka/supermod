@@ -3,7 +3,6 @@
 #include <ranges>
 
 #include "VersionRange.h"
-#include <modloader/mod/impl/lua/lua.h>
 
 class VersionRange {
 public:
@@ -123,29 +122,6 @@ public:
             conditionGroups.push_back(currentGroup);
 
         return VersionRange(std::move(conditionGroups));
-    }
-
-    static void RegisterLuaType(sol::state& lua)
-    {
-        auto package = get_package_table(lua, "data");
-
-        package.new_usertype<semver::version>("version",
-            sol::call_constructor, sol::constructors<semver::version()>(),
-            "string", &semver::version::str,
-            "parse", &semver::version::parse,
-            sol::meta_function::to_string, [](const semver::version& ver) { return std::format("Version<{}>", ver.str()); },
-            sol::meta_function::equal_to, &semver::version::operator==,
-            sol::meta_function::less_than, &semver::version::operator<,
-            sol::meta_function::less_than_or_equal_to, &semver::version::operator<=
-        );
-
-        package.new_usertype<VersionRange>("versionRange",
-            sol::call_constructor, sol::constructors<VersionRange()>(),
-            "serialize", &VersionRange::Serialize,
-            "match", &VersionRange::Match,
-            "parse", &VersionRange::Parse,
-            sol::meta_function::to_string, [](const VersionRange& ver) { return std::format("VersionRange<{}>", ver.Serialize()); }
-        );
     }
 
 private:

@@ -71,12 +71,9 @@ void modloader::ModInfo::Parse(YAML::Node& node)
         }
     }
 
-    scriptMain = node["main"].as<std::string>(node["lua-script"].as<std::string>(""));
-    scriptType = scriptMain.ends_with(".lua")
-        ? ScriptType::LUA
-        : scriptMain.ends_with(".dll")
+    scriptType = scriptMain.ends_with(".dll")
             ? ScriptType::DLL
-            : ScriptType::NONE; // TODO: better script type handling
+            : ScriptType::NONE;
 
 
     if (!node["title"]) spdlog::warn("No title found in mod {}", id);

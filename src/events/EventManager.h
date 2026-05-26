@@ -9,13 +9,9 @@
 #include <mutex>
 #include <typeindex>
 #include <unordered_set>
-#include <modloader/mod/impl/lua/lua.h>
-#include <modloader/mod/impl/lua/LuaScriptRuntime.h>
 
 struct IAnyEvent {
     virtual ~IAnyEvent() = default;
-    
-    virtual void RegisterLuaType(sol::state& state) {}
 };
 
 template<size_t N>
@@ -42,12 +38,6 @@ struct ICancellableEvent : IEvent<EventId, EventType> {
         return _cancelled;
     }
 
-    void RegisterLuaType(sol::state& state) override
-    {
-        state.new_usertype<EventType>(sol::no_constructor,
-            "cancel", &EventType::Cancel,
-            "isCancelled", &EventType::IsCancelled);
-    }
 private:
     bool _cancelled = false;
 };
@@ -159,8 +149,6 @@ public:
         }
 
         for (auto& fn : fns) fn.second(event);
-
-        modloader::LuaScriptRuntime::DispatchEvent(typeId, event);
     }
 
     template <std::derived_from<IAnyEvent> Event>
@@ -179,8 +167,6 @@ public:
         }
 
         for (auto& fn : fns) fn.second(event);
-
-        modloader::LuaScriptRuntime::DispatchEvent(typeId, event);
     }
 
     struct Ready {

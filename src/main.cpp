@@ -36,7 +36,6 @@
 #include <utils/TempManager.h>
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/bundled/color.h>
-#include <modloader/mod/impl/lua/lua.h>
 #include <cpr/cpr.h>
 
 

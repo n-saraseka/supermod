@@ -6,8 +6,8 @@
 
 ## Установка
 
-- Скачать последнюю версию модлоадера [**тут**](https://github.com/n-saraseka/supermod/releases/latest/download/dinput8.dll).
-- Поместить скачанный файл `dinput8.dll` в папку с игрой. Название файла менять нельзя.
+- Скачать последнюю версию модлоадера [**тут**](https://github.com/n-saraseka/supermod/releases/latest/download/d3d8.dll).
+- Поместить скачанный файл `d3d8.dll` в папку с игрой. Название файла менять нельзя.
 
 ![screenshot](.github/screenshot.png)
 

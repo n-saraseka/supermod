@@ -30,25 +30,17 @@ namespace modloader {
 
         static const std::vector<std::shared_ptr<Mod>>& GetMods() { return mods; }
         static const std::vector<std::shared_ptr<Mod>>& GetInternalMods() { return internal_mods; }
-        static const std::vector<std::shared_ptr<Mod>>& GetModDependents(const std::string& id);
         static std::shared_ptr<Mod> FindModByID(const std::string& id);
 
-        static void AddMod(const std::shared_ptr<Mod>& mod);
-        static void RemoveMods(const std::vector<std::shared_ptr<Mod>>& removalList);
         static void ReorderMods(const std::vector<std::shared_ptr<Mod>>& newMods);
         static void ToggleMod(const std::shared_ptr<Mod>& mod, bool enabled);
-        static void ScheduleModRemoval(const std::shared_ptr<Mod>& mod, bool remove = true);
         static void ReloadMod(const std::shared_ptr<Mod>& mod);
-
-        static std::shared_ptr<Mod> CreateMod(const std::filesystem::path& modPath);
 
         static void SaveConfig(const std::shared_ptr<Mod>& mod);
         static void MarkDirty(const DirtyFlag flag) { dirty_flags |= static_cast<uint32_t>(flag); }
 
     private:
         static void UpdateStates();
-        static void UpdateDeps();
-        static void UpdateRemovedMods();
 
         static void AddInternalMod(const std::shared_ptr<Mod>& mod);
 

@@ -28,7 +28,6 @@
 #include "memory/Memory.h"
 #include <mod/ModImplInternal.h>
 #include <modloader/files/ModFileResolver.h>
-#include <modloader/install/ModInstaller.h>
 
 #include "modloader/ModManager.h"
 #include "sdk/Game.h"
@@ -54,10 +53,8 @@ void InitMemory()
 void PostInit()
 {
     modloader::ModManager::Init();
-    modloader::ModInstaller::Init();
     modloader::ModFileResolver::Init();
     EventManager::Emit(ReadyEvent());
-    if (Config::Get().updater.checkAutomatically) UpdateManager::CheckForUpdates();
 }
 
 HOOK_FN(int, load_game, ARGS())
@@ -80,7 +77,7 @@ HOOK_FN(int, load_game, ARGS())
         EnableMenuItem(GetSystemMenu(*sdk::Game::window, FALSE), SC_CLOSE, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);
     }
 
-    while (sdk::Game::bootMenuActive || !modloader::ModInstaller::GetInstallRequests().empty())
+    while (sdk::Game::bootMenuActive)
     {
         auto start = GetTickCount64();
         dx_utils::force_render_tick();

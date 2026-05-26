@@ -23,16 +23,6 @@ void ui::windows::main::ModsView()
     static bool reorder = false;
     static std::vector<std::shared_ptr<modloader::Mod>> reorderMods{};
 
-    for (const auto& loadedMod : modloader::ModManager::GetInternalMods())
-    {
-        popups::ModModals(loadedMod);
-    }
-
-    for (const auto& loadedMod : modloader::ModManager::GetMods())
-    {
-        popups::ModModals(loadedMod);
-    }
-
     const auto width = ImGui::GetContentRegionAvail().x / 2;
     ImGui::BeginChild("Left block", ImVec2(width, 0));
     {
@@ -88,12 +78,6 @@ void ui::windows::main::ModsView()
 
             ImGui::SameLine();
             ImGui::BeginDisabled(sdk::Game::currentTickIsInner);
-            if (ImGui::Button(ICON_MD_REFRESH))
-            {
-                modloader::ModManager::ScanMods();
-            }
-
-            widgets::Tooltip("Перезагрузить все моды");
 
             ImGui::EndDisabled();
         }
@@ -171,24 +155,6 @@ void ui::windows::main::ModsView()
                     ImGui::OpenPopup("Mod menu");
                 }
 
-                if (mod->HasFlag(modloader::Mod::Flag::REMOVAL_SCHEDULED))
-                {
-                    ImGui::Spacing();
-                    styles::warning::BeginPanel("Removal scheduled warning");
-
-                    styles::warning::Icon();
-                    ImGui::SameLine(0, 0);
-                    ImGui::TextWrapped(" Мод будет удалён после выключения");
-                    ImGui::Spacing();
-
-                    if (ImGui::Button(ICON_MD_REPLAY " Отменить"))
-                    {
-                        modloader::ModManager::ScheduleModRemoval(mod, false);
-                    }
-
-                    styles::warning::EndPanel();
-                }
-
                 if (const auto& error = mod->GetLoadingError(); !error.empty())
                 {
                     ImGui::Spacing();
@@ -210,44 +176,6 @@ void ui::windows::main::ModsView()
 
             if (widgets::mods::Description(info))
                 ImGui::Spacing();
-
-            ImGui::Separator();
-            ImGui::Spacing();
-
-            if (!mod->GetInfo()->dependencies.empty())
-            {
-                ImGui::Text("Зависимости:");
-                ImGui::Spacing();
-                ImGui::PushID("Dependencies");
-
-                for (const auto& dependency : mod->GetInfo()->dependencies)
-                {
-                    widgets::mods::Reference(dependency.id, dependency);
-                    ImGui::Spacing();
-                }
-
-                ImGui::PopID();
-                ImGui::Separator();
-                ImGui::Spacing();
-            }
-
-            const auto dependents = modloader::ModManager::GetModDependents(mod->GetID());
-            if (!dependents.empty())
-            {
-                ImGui::Text("Зависимые моды:");
-                ImGui::Spacing();
-                ImGui::PushID("Dependents");
-
-                for (const auto& dependant : dependents)
-                {
-                    widgets::mods::Reference(dependant->GetID());
-                    ImGui::Spacing();
-                }
-
-                ImGui::PopID();
-                ImGui::Separator();
-                ImGui::Spacing();
-            }
 
             mod->GetImpl()->RenderUI();
         }

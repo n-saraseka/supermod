@@ -9,7 +9,6 @@
 #include <imgui-dx9/imgui_impl_win32.h>
 #include <imgui-dx9/imgui_impl_dx9.h>>
 #include <modloader/ModManager.h>
-#include <modloader/install/ModInstaller.h>
 #include <modloader/mod/Mod.h>
 #include <spdlog/spdlog.h>
 
@@ -137,8 +136,6 @@ void Ui::Render() {
             mod->GetImpl()->Render();
         }
 
-        windows::Installer();
-        windows::DropTarget();
         EventManager::Emit(UiRenderEvent());
     } catch(std::exception& e) {
         spdlog::error("Error in ImGui render function: {}", e.what());

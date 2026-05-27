@@ -75,7 +75,6 @@ public:
     struct
     {
         bool checkAutomatically = true;
-        bool usePrerelease = false;
     } updater {};
 
     #define LINK(struct, path) if (read) struct = node##path.as<decltype(struct)>(struct); else node##path = struct
@@ -97,6 +96,5 @@ public:
         LINK(log.maxFiles, ["log"]["maxFiles"]);
         LINK(log.limitFiles, ["log"]["limitFiles"]);
         LINK(updater.checkAutomatically, ["updater"]["checkAutomatically"]);
-        LINK(updater.usePrerelease, ["updater"]["usePrerelease"]);
     }
 };

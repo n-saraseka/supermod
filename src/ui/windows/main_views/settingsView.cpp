@@ -14,6 +14,15 @@ void ui::windows::main::SettingsView()
     const auto width = ImGui::GetContentRegionMax().x / 2;
     ImGui::PushItemWidth(width);
 
+    ImGui::SeparatorText("Обновления");
+
+    UpdateManager::RenderMessage();
+    ImGui::Spacing();
+    if (ImGui::Checkbox("Проверять автоматически", &cfg.updater.checkAutomatically))
+        cfg.Save();
+
+    ImGui::Spacing();
+
     ImGui::SeparatorText("Игра");
     ImGui::Text("Версия игры:");
     ImGui::SameLine();

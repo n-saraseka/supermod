@@ -49,13 +49,11 @@ bool UpdateManager::CheckForUpdatesSync()
     // TODO: dont check on local builds
     try
     {
-        auto prerelease = Config::Get().updater.usePrerelease;
-        cpr::Response r = cpr::Get(cpr::Url{ std::string("https://api.github.com/repos/zziger/supercow-mod/releases") + (prerelease ? "?per_page=1" : "/latest") });
+        cpr::Response r = cpr::Get(cpr::Url{ std::string("https://api.github.com/repos/n-saraseka/supermod/releases/latest") });
         if (r.status_code == 200)
         {
             // Parse JSON
             nlohmann::json j = nlohmann::json::parse(r.text);
-            if (prerelease) j = j[0];
             semver::version latestVersion = semver::version::parse(j["tag_name"]);
             semver::version currentVersion = semver::version::parse(SUPERMOD_VERSION);
 

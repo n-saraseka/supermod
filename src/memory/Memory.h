@@ -373,6 +373,11 @@ public:
 		return *this;
 	}
 
+	Memory FollowPtr() const
+	{
+		return Memory(*(uintptr_t*)_address, false);
+	}
+
 #ifdef MH_ALL_HOOKS
 	template<class T>
 	bool Detour(T* fn, T** orig = nullptr, int32_t id = 0) const
